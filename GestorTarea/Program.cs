@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GestorTarea;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,7 @@ namespace TaskManagerApp
 
     class Program
     {
+
         static void Main(string[] args)
         {
             GestorTareas gestorTareas = new GestorTareas();
@@ -14,6 +16,7 @@ namespace TaskManagerApp
 
             while (!salir)
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Seleccione la opcion deseada:");
                 Console.WriteLine("1. Agregar tarea");
                 Console.WriteLine("2. Eliminar tarea");
@@ -76,16 +79,35 @@ namespace TaskManagerApp
 
                         Tarea nuevaTarea = new Tarea(titulo, descripcion, prioridad, fechaVencimiento, categoria);
                         gestorTareas.AgregarTarea(nuevaTarea);
+
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("La tarea ha sido agregada exitosamente.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
 
                     case "2":
+                        Console.WriteLine();    
+                        Console.Write("Escoge la tarea a eliminar.");
+                        gestorTareas.MostrarTareas();
+                        Console.WriteLine();
                         Console.Write("Título de la tarea a eliminar: ");
                         string tituloEliminar = Console.ReadLine();
                         gestorTareas.EliminarTarea(tituloEliminar);
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Eliminado exitosamente.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("tareas pendientes.");
+                        gestorTareas.MostrarTareas();
                         break;
 
                     case "3":
-                        Console.Write("Título de la tarea que desea modificar: ");
+
+                        Console.WriteLine();
+                        Console.WriteLine("Eliga el titulo de la tarea a modificar: ");
+                        gestorTareas.MostrarTareas();
+                        Console.WriteLine();
                         string tituloModificar = Console.ReadLine();
                         Console.Write("Nuevo título: ");
                         string nuevoTitulo = Console.ReadLine();
@@ -95,11 +117,31 @@ namespace TaskManagerApp
                         int nuevaPrioridad;
                         while (true)
                         {
-                            Console.Write("Nueva prioridad (número): ");
-                            if (int.TryParse(Console.ReadLine(), out nuevaPrioridad))
+                            Console.Write("Prioridad (bajo, medio, alto): ");
+                            string entrada = Console.ReadLine().ToLower();
+
+                            if (entrada == "bajo")
+                            {
+                                nuevaPrioridad = 1;
                                 break;
-                            Console.WriteLine("la Prioridad no es válida. Inténtelo de nuevo.");
+                            }
+                            else if (entrada == "medio")
+                            {
+                                nuevaPrioridad = 2;
+                                break;
+                            }
+                            else if (entrada == "alto")
+                            {
+                                nuevaPrioridad = 3;
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("la Prioridad no es válida. Inténtelo de nuevo.");
+                            }
                         }
+
+
 
                         DateTime nuevaFechaVencimiento;
                         while (true)
@@ -115,10 +157,20 @@ namespace TaskManagerApp
 
                         Tarea tareaModificada = new Tarea(nuevoTitulo, nuevaDescripcion, nuevaPrioridad, nuevaFechaVencimiento, nuevaCategoria);
                         gestorTareas.ModificarTarea(tituloModificar, tareaModificada);
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Modificado exitosamente.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
 
                     case "4":
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Lista de tarea.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine();
                         gestorTareas.MostrarTareas();
+                      
                         break;
 
                     case "5":
@@ -130,10 +182,28 @@ namespace TaskManagerApp
                         int prioridadUrgente;
                         while (true)
                         {
-                            Console.Write("Prioridad (número): ");
-                            if (int.TryParse(Console.ReadLine(), out prioridadUrgente))
+                            Console.Write("Nivel de Prioridad urgente (bajo, medio, alto): ");
+                            string entrada = Console.ReadLine().ToLower();
+
+                            if (entrada == "bajo")
+                            {
+                                prioridadUrgente = 1;
                                 break;
-                            Console.WriteLine("la Prioridad no es válida. Inténtelo de nuevo.");
+                            }
+                            else if (entrada == "medio")
+                            {
+                                prioridadUrgente = 2;
+                                break;
+                            }
+                            else if (entrada == "alto")
+                            {
+                                prioridadUrgente = 3;
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("la Urgente Prioridad no es válida. Inténtelo de nuevo.");
+                            }
                         }
 
                         DateTime fechaVencimientoUrgente;
@@ -150,6 +220,10 @@ namespace TaskManagerApp
 
                         Tarea tareaUrgente = new Tarea(tituloUrgente, descripcionUrgente, prioridadUrgente, fechaVencimientoUrgente, categoriaUrgente);
                         gestorTareas.AgregarTareaUrgente(tareaUrgente);
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("La tarea urgente ha sido agregada exitosamente.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
 
                     case "6":
@@ -157,19 +231,33 @@ namespace TaskManagerApp
                         break;
 
                     case "7":
+                        Console.WriteLine();
+                        Console.WriteLine("Arbol de tarea.");
                         gestorTareas.MostrarArbolTareas();
                         break;
 
                     case "8":
                         gestorTareas.Deshacer();
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Acción realizada exitosamente.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
 
                     case "9":
                         gestorTareas.Rehacer();
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Acción realizada exitosamente.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
 
                     case "10":
                         salir = true;
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Que tenga buen dia.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
 
                     default:
